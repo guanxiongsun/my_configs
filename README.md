@@ -17,7 +17,6 @@ cd my_configs
 ln -s setup_config.sh ~/.
 cd
 sh setup_config.sh
-
 ```
 
 
