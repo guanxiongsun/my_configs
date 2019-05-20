@@ -22,19 +22,47 @@ sh setup_config.sh
 
 # Practical modifications
 ## Vim
-let go 
-set mouse=a
-set nu
+```
+## Unwarning go version
+echo "\nlet g:go_version_warning = 0" >> ~/.vimrc
+
+## Enable mouse
+echo "\nset mouse=a" >> ~/.vimrc
+
+## Enable line number
+echo "\nset nu" >> ~/.vimrc
+
+## Show hidden files
+echo "\nlet NERDTreeShowHidden=1" >> ~/.vimrc
+```
 
 ## Tmux
-do not change window name
-use mouse
-use clipboard
+```
+## Disable auto name
+echo "\nset-option -g allow-rename off" >> ~/.tmux.conf.local
+
+## Enable mouse
+echo "\nset -g mouse on" >> ~/.tmux.conf.local
+
+## Keep directory
+echo "\nbind '%' split-window -h -c '#{pane_current_path}'  # Split panes horizontal" >> ~/.tmux.conf.local
+echo "\nbind '\"' split-window -v -c '#{pane_current_path}'  # Split panes vertically" >> ~/.tmux.conf.local
+echo "\nbind c new-window -c '#{pane_current_path}' # Create new window" >> ~/.tmux.conf.local
+```
+**TODO**:
+
+[] Vim clipboard
+[] System clipboard
 
 ## Oh my zsh
-do not change to zsh immediately after installation 
+- Do not change to zsh immediately after installation 
 
 
 # Useful alias
 - nsmi: `nvidia-smi`
 - wsmi: `watch -n 1 nvidia-smi`
+
+```
+echo "\nalias nsmi='nvidia-smi'" >> ~/.alias
+echo "\nalias wsmi='watch -n 1 nvidia-smi'" >> ~/.alias
+```
