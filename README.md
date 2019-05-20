@@ -51,8 +51,8 @@ echo "\nbind c new-window -c '#{pane_current_path}' # Create new window" >> ~/.t
 ```
 **TODO**:
 
-[] Vim clipboard
-[] System clipboard
+- [] Vim clipboard
+- [] System clipboard
 
 ## Oh my zsh
 - Do not change to zsh immediately after installation 
