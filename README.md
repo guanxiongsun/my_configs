@@ -11,14 +11,14 @@ Optional:
 - [Anaconda](https://www.anaconda.com/distribution/)
 
 # Usage
-'''
+```
 git clone https://github.com/sunguanxiong/my_configs.git
 cd my_configs
 ln -s setup_config.sh ~/.
 cd
 sh setup_config.sh
 
-'''
+```
 
 
 # Practical modifications
