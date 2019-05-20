@@ -1,3 +1,4 @@
+#!/bin/sh
 # Use colors, but only if connected to a terminal, and that terminal
 # supports them.
   if which tput >/dev/null 2>&1; then
@@ -24,6 +25,10 @@ set -e
 
 # 1.Install Vimrc
 
+if [ -d ~/.vim_runtime ]; then
+    mv ~/.vim_runtime ~/.vim_runtime.old
+fi
+
 git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
 sh ~/.vim_runtime/install_awesome_vimrc.sh
 
@@ -33,8 +38,10 @@ echo "\nlet g:go_version_warning = 0" >> ~/.vimrc
 echo "\nset mouse=a" >> ~/.vimrc
 ## Enable nu
 echo "\nset nu" >> ~/.vimrc
+## Show hidden files
+echo "\nlet NERDTreeShowHidden=1" >> ~/.vimrc
 
-printf "${GREEN}Vimrc done.{NORMAL}\n"
+printf "${GREEN}Vimrc done.${NORMAL}\n"
 
 
 # 2.Install Oh-my-tmux
@@ -43,7 +50,11 @@ printf "${GREEN}Vimrc done.{NORMAL}\n"
 if ! command -v tmux>/dev/null 2>&1; then
     print "${YELLOW}Tmux is not installed! Install first.${NORMAL}\n"
     exit
-if
+fi
+
+if [ -d ~/.tmux ]; then
+    mv ~/.tmux ~/.tmux.old
+fi
 
 git clone https://github.com/gpakosz/.tmux.git ~/.tmux
 ln -s -f ~/.tmux/.tmux.conf ~/.tmux.conf
@@ -63,8 +74,8 @@ printf "${GREEN}Tmux done${NORMAL}\n"
 
 # 3.Add alias
 
-echo "\nnsmi=nvidia-smi" >> ~/.alias
-echo "\nwsmi=watch -n 1 nvidia-smi" >> ~/.alias
+echo "\nalias nsmi='nvidia-smi'" >> ~/.alias
+echo "\nalias wsmi='watch -n 1 nvidia-smi'" >> ~/.alias
 
 
 # 4.Install Oh-my-zsh
