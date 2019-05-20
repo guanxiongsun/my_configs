@@ -89,12 +89,18 @@ if ! command -v wget >/dev/null 2>&1; then
 		exit
 	else
 		printf "Find curl.\n"
-		sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+		curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh --output ~/ohmyzsh_install.sh
 	fi
 else
 	printf "Find wget.\n"
-	sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+	wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O ~/ohmyzsh_install.sh
 fi
+
+## substitute the last zsh command in install file
+sed -i 's/env zsh -l/# env zsh -l/g' ~/ohmyzsh_install.sh
+
+## install oh my zsh
+sh ~/ohmyzsh_install.sh
 
 ## source alias
 echo "\nsource ~/.alias" >> ~/.zshrc
