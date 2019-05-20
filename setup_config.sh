@@ -106,7 +106,20 @@ sh ~/ohmyzsh_install.sh
 echo "\nsource ~/.alias" >> ~/.zshrc
 
 
+# 5.Anaconda
+read -p "Do you want to install Anaconda? y/[n]\n" text
+
+if [ "$text"x="y"x ]; then
+    echo "Install Anaconda...\n"
+    wget https://repo.anaconda.com/archive/Anaconda3-2019.03-Linux-x86_64.sh -O Anaconda3_install.sh
+    sh Anaconda3_install.sh
+else
+    echo "Skip Installation.\n"
+fi
+
+
 # TODO
-## Anaconda
+## matlab
+
 
 printf "${RED}WELL DONE!${NORMAL}\n"
