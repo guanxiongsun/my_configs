@@ -107,7 +107,7 @@ echo "\nsource ~/.alias" >> ~/.zshrc
 
 
 # 5.Anaconda
-read -p "Do you want to install Anaconda? y/[n]\n" text
+read -p "Do you want to install Anaconda? y/[n] >> " text
 
 if [ "$text"x="y"x ]; then
     echo "Install Anaconda...\n"
