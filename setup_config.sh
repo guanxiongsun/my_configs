@@ -102,6 +102,9 @@ sed -i 's/env zsh -l/# env zsh -l/g' ~/ohmyzsh_install.sh
 ## install oh my zsh
 sh ~/ohmyzsh_install.sh
 
+## change the prompt of robbyrussell to $USER@$HOST
+cp .oh-my-zsh/custom/robbyrussell.zsh-theme ~/.oh-my-zsh/custom/
+
 ## source alias
 echo "\nsource ~/.alias" >> ~/.zshrc
 
