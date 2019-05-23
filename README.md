@@ -14,8 +14,6 @@ Optional:
 ```
 git clone https://github.com/sunguanxiong/my_configs.git
 cd my_configs
-ln -s $PWD/setup_config.sh ~
-cd
 sh setup_config.sh
 ```
 
