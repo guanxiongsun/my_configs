@@ -49,13 +49,13 @@ git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
 sh ~/.vim_runtime/install_awesome_vimrc.sh
 
 ## Unwarning go version
-echo "\nlet g:go_version_warning = 0" >> ~/.vimrc
+echo "let g:go_version_warning = 0" >> ~/.vimrc
 ## Enable mouse
-echo "\nset mouse=a" >> ~/.vimrc
+echo "set mouse=a" >> ~/.vimrc
 ## Enable nu
-echo "\nset nu" >> ~/.vimrc
+echo "set nu" >> ~/.vimrc
 ## Show hidden files
-echo "\nlet NERDTreeShowHidden=1" >> ~/.vimrc
+echo "let NERDTreeShowHidden=1" >> ~/.vimrc
 
 printf "${GREEN}Vimrc done.${NORMAL}\n"
 
@@ -77,13 +77,13 @@ ln -s -f ~/.tmux/.tmux.conf ~/.tmux.conf
 cp ~/.tmux/.tmux.conf.local ~
 
 ## Disable auto name
-echo "\nset-option -g allow-rename off" >> ~/.tmux.conf.local
+echo "set-option -g allow-rename off" >> ~/.tmux.conf.local
 ## Enable mouse
-echo "\nset -g mouse on" >> ~/.tmux.conf.local
+echo "set -g mouse on" >> ~/.tmux.conf.local
 ## Keep directory
-echo "\nbind '%' split-window -h -c '#{pane_current_path}'  # Split panes horizontal" >> ~/.tmux.conf.local
-echo "\nbind '\"' split-window -v -c '#{pane_current_path}'  # Split panes vertically" >> ~/.tmux.conf.local
-echo "\nbind c new-window -c '#{pane_current_path}' # Create new window" >> ~/.tmux.conf.local
+echo "bind '%' split-window -h -c '#{pane_current_path}'  # Split panes horizontal" >> ~/.tmux.conf.local
+echo "bind '\"' split-window -v -c '#{pane_current_path}'  # Split panes vertically" >> ~/.tmux.conf.local
+echo "bind c new-window -c '#{pane_current_path}' # Create new window" >> ~/.tmux.conf.local
 
 printf "${GREEN}Tmux done${NORMAL}\n"
 
