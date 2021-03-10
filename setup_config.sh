@@ -124,7 +124,7 @@ rm ~/ohmyzsh_install.sh
 cp .oh-my-zsh/custom/robbyrussell.zsh-theme ~/.oh-my-zsh/custom/
 
 ## source alias
-echo "\nsource ~/.alias" >> ~/.zshrc
+echo "source ~/.alias" >> ~/.zshrc
 
 
 # 5.Anaconda
