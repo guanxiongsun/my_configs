@@ -1,1 +1,11 @@
-.idea
+# Editor / OS junk
+.idea/
+.vscode/
+.DS_Store
+*.swp
+
+# Safety net: this repo is public, so private keys must never be committed.
+id_*
+!id_*.pub
+*.pem
+*.key

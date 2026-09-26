@@ -1,0 +1,12 @@
+# Managed by chezmoi (github.com/guanxiongsun/my_configs); edit with `chezmoi edit ~/.ssh/config`.
+# This repo is public: put private hosts in ~/.ssh/config.local, which is read first and wins.
+Include ~/.ssh/config.local
+
+Host github.com
+    User git
+    UserKnownHostsFile ~/.ssh/known_hosts ~/.ssh/known_hosts.github
+    AddKeysToAgent yes
+
+Host *
+    ServerAliveInterval 60
+    ServerAliveCountMax 3

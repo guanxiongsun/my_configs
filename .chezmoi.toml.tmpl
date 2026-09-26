@@ -1,0 +1,12 @@
+{{- /* Asked once per machine by `chezmoi init`; answers live in ~/.config/chezmoi/chezmoi.toml, never in this repo. */ -}}
+{{- $name := promptStringOnce . "name" "Git user.name" -}}
+{{- $email := promptStringOnce . "email" "Git user.email" -}}
+{{- $miniforge := promptBoolOnce . "miniforge" "Install Miniforge (conda) into ~/miniforge3" false -}}
+
+[data]
+    name = {{ $name | quote }}
+    email = {{ $email | quote }}
+    miniforge = {{ $miniforge }}
+
+[git]
+    autoCommit = false

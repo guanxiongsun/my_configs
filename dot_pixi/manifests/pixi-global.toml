@@ -1,0 +1,100 @@
+# Tools installed into ~/.pixi without root (prebuilt conda-forge packages).
+# Edit with `chezmoi edit ~/.pixi/manifests/pixi-global.toml`; `chezmoi apply` then runs `pixi global sync`.
+# Anything installed with plain `pixi global install` that isn't listed here is removed on the next sync.
+version = 1
+
+# --- shell & terminal ---------------------------------------------------------
+[envs.zsh]
+channels = ["conda-forge"]
+dependencies = { zsh = "*" }
+exposed = { zsh = "zsh" }
+
+[envs.tmux]
+channels = ["conda-forge"]
+dependencies = { tmux = "*" }
+exposed = { tmux = "tmux" }
+
+[envs.starship]
+channels = ["conda-forge"]
+dependencies = { starship = "*" }
+exposed = { starship = "starship" }
+
+# --- editor -------------------------------------------------------------------
+[envs.nvim]  # the editor; conda-forge's "neovim" package is only the old Python client
+channels = ["conda-forge"]
+dependencies = { nvim = "*" }
+exposed = { nvim = "nvim" }
+
+[envs.tree-sitter-cli]
+channels = ["conda-forge"]
+dependencies = { tree-sitter-cli = "*" }
+exposed = { tree-sitter = "tree-sitter" }
+
+[envs.nodejs]
+channels = ["conda-forge"]
+dependencies = { nodejs = "*" }
+exposed = { node = "node", npm = "npm", npx = "npx" }
+
+# --- modern CLI basics --------------------------------------------------------
+[envs.fzf]
+channels = ["conda-forge"]
+dependencies = { fzf = "*" }
+exposed = { fzf = "fzf" }
+
+[envs.ripgrep]
+channels = ["conda-forge"]
+dependencies = { ripgrep = "*" }
+exposed = { rg = "rg" }
+
+[envs.fd-find]
+channels = ["conda-forge"]
+dependencies = { fd-find = "*" }
+exposed = { fd = "fd" }
+
+[envs.bat]
+channels = ["conda-forge"]
+dependencies = { bat = "*" }
+exposed = { bat = "bat" }
+
+[envs.eza]
+channels = ["conda-forge"]
+dependencies = { eza = "*" }
+exposed = { eza = "eza" }
+
+[envs.zoxide]
+channels = ["conda-forge"]
+dependencies = { zoxide = "*" }
+exposed = { zoxide = "zoxide" }
+
+# --- git helpers --------------------------------------------------------------
+[envs.gh]
+channels = ["conda-forge"]
+dependencies = { gh = "*" }
+exposed = { gh = "gh" }
+
+[envs.lazygit]
+channels = ["conda-forge"]
+dependencies = { lazygit = "*" }
+exposed = { lazygit = "lazygit" }
+
+[envs.git-delta]
+channels = ["conda-forge"]
+dependencies = { git-delta = "*" }
+exposed = { delta = "delta" }
+
+# --- python -------------------------------------------------------------------
+[envs.uv]
+channels = ["conda-forge"]
+dependencies = { uv = "*" }
+exposed = { uv = "uv", uvx = "uvx" }
+
+# --- monitoring ---------------------------------------------------------------
+[envs.btop]
+channels = ["conda-forge"]
+dependencies = { btop = "*" }
+exposed = { btop = "btop" }
+
+[envs.nvitop]
+channels = ["conda-forge"]
+dependencies = { nvitop = "*" }
+exposed = { nvitop = "nvitop" }

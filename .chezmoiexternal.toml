@@ -1,0 +1,15 @@
+# Third-party code chezmoi clones for us and refreshes weekly (`chezmoi update` / `chezmoi apply -R`).
+
+[".local/share/antidote"]
+    type = "git-repo"
+    url = "https://github.com/mattmc3/antidote.git"
+    refreshPeriod = "168h"
+    clone.args = ["--depth", "1"]
+    pull.args = ["--ff-only"]
+
+[".config/tmux/plugins/tpm"]
+    type = "git-repo"
+    url = "https://github.com/tmux-plugins/tpm.git"
+    refreshPeriod = "168h"
+    clone.args = ["--depth", "1"]
+    pull.args = ["--ff-only"]

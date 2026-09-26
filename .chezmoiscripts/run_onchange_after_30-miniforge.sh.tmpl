@@ -1,0 +1,23 @@
+{{- if .miniforge -}}
+#!/usr/bin/env bash
+# Miniforge (conda + mamba, conda-forge channel) in ~/miniforge3. Chosen at `chezmoi init`.
+# We don't run `conda init`: ~/.zshrc loads conda's shell function itself.
+set -euo pipefail
+
+prefix="$HOME/miniforge3"
+if [ -x "$prefix/bin/conda" ]; then
+  exit 0
+fi
+
+tmpdir="$(mktemp -d)"
+trap 'rm -rf "$tmpdir"' EXIT
+installer="$tmpdir/Miniforge3.sh"   # the installer insists on a .sh name
+url="https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-$(uname -m).sh"
+echo "Installing Miniforge into ~/miniforge3"
+if command -v curl >/dev/null 2>&1; then
+  curl -fsSL --retry 3 -o "$installer" "$url"
+else
+  wget -qO "$installer" "$url"
+fi
+bash "$installer" -b -p "$prefix"
+{{ end -}}

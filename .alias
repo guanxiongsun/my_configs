@@ -1,6 +1,0 @@
-# alias file
-
-alias nsmi='nvidia-smi'
-alias wsmi='watch -n 1 nvidia-smi'
-
-alias cl='clear'

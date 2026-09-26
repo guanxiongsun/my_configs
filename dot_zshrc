@@ -1,0 +1,57 @@
+# ~/.zshrc: interactive zsh. Managed by chezmoi (github.com/guanxiongsun/my_configs).
+# Edit with `chezmoi edit ~/.zshrc`; put machine-specific settings in ~/.zshrc.local.
+
+# --- history & options -------------------------------------------------------
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=100000
+SAVEHIST=100000
+setopt extended_history share_history hist_ignore_all_dups hist_ignore_space hist_reduce_blanks
+setopt auto_cd auto_pushd pushd_ignore_dups interactive_comments no_beep
+bindkey -e
+
+# --- completion paths (before plugins, so ez-compinit picks them up) ----------
+[[ -d "$HOME/.pixi/completions/zsh" ]] && fpath=("$HOME/.pixi/completions/zsh" $fpath)
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'   # case-insensitive
+zstyle ':completion:*' menu select
+
+# --- plugins (antidote) --------------------------------------------------------
+# oh-my-zsh plugins expect a cache dir.
+ZSH_CACHE_DIR="$XDG_CACHE_HOME/zsh"
+[[ -d "$ZSH_CACHE_DIR/completions" ]] || mkdir -p "$ZSH_CACHE_DIR/completions"
+# ssh-agent: one agent per host (cached in ~/.ssh/environment-$SHORT_HOST, safe with NFS-shared homes);
+# keys are added on first use (AddKeysToAgent) and a forwarded agent is reused.
+SHORT_HOST="${HOST%%.*}"
+zstyle :omz:plugins:ssh-agent lazy yes
+zstyle :omz:plugins:ssh-agent agent-forwarding yes
+zstyle :omz:plugins:ssh-agent quiet yes
+
+if [[ -r "$HOME/.local/share/antidote/antidote.zsh" ]]; then
+  source "$HOME/.local/share/antidote/antidote.zsh"
+  antidote load   # regenerates ~/.zsh_plugins.zsh when ~/.zsh_plugins.txt changes
+fi
+
+# --- tools ---------------------------------------------------------------------
+# fzf key bindings (Ctrl-R history, Ctrl-T files, Alt-C cd); only in a real terminal
+[[ -t 0 && -t 1 ]] && (( $+commands[fzf] )) && source <(fzf --zsh)
+(( $+commands[zoxide] )) && eval "$(zoxide init zsh)"
+
+# conda (Miniforge), without letting `conda init` edit rc files. Use `conda activate <env>`.
+for _conda in "$HOME/miniforge3" "$HOME/miniconda3" "$HOME/anaconda3"; do
+  if [[ -r "$_conda/etc/profile.d/conda.sh" ]]; then
+    source "$_conda/etc/profile.d/conda.sh"
+    break
+  fi
+done
+unset _conda
+
+[[ -r "$XDG_CONFIG_HOME/shell/aliases.sh" ]] && source "$XDG_CONFIG_HOME/shell/aliases.sh"
+
+# --- prompt --------------------------------------------------------------------
+if (( $+commands[starship] )); then
+  eval "$(starship init zsh)"
+else
+  PROMPT='%B%F{yellow}%n%f@%F{blue}%m%f%b %F{cyan}%~%f %(?.%F{green}.%F{red})➜%f '
+fi
+
+# --- machine-local overrides ------------------------------------------------------
+[[ -r "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"

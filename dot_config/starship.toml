@@ -1,0 +1,51 @@
+# Starship prompt (https://starship.rs). Two lines, like the old custom robbyrussell theme:
+#   user@host  dir  git-branch  conda/venv  duration
+#   ➜
+"$schema" = "https://starship.rs/config-schema.json"
+add_newline = false
+
+format = """
+$username$hostname $directory$git_branch$git_status$conda$python$cmd_duration
+$character"""
+
+[username]
+show_always = true
+style_user = "bold yellow"
+style_root = "bold red"
+format = "[$user]($style)"
+
+[hostname]
+ssh_only = false
+style = "bold blue"
+format = "@[$hostname]($style)"
+
+[directory]
+style = "cyan"
+truncation_length = 4
+truncate_to_repo = false
+format = "[$path]($style)[$read_only]($read_only_style) "
+
+[git_branch]
+format = "[git:\\(]($style)[$branch](red)[\\)]($style) "
+style = "blue"
+
+[git_status]
+format = "([$all_status$ahead_behind]($style) )"
+style = "yellow"
+
+[conda]
+ignore_base = true
+format = "[🅒 $environment]($style) "
+
+[python]
+format = "[${symbol}${version}( \\($virtualenv\\))]($style) "
+detect_extensions = []
+detect_files = []
+
+[cmd_duration]
+min_time = 3_000
+format = "[took $duration]($style) "
+
+[character]
+success_symbol = "[➜](bold green)"
+error_symbol = "[➜](bold red)"
