@@ -16,7 +16,9 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/guanxiongsun/my_configs/
 ```
 
 It asks three things once per machine: your git name, your git email, and whether to install Miniforge.
-The answers are stored in `~/.config/chezmoi/chezmoi.toml`, never in this repo. Then it:
+Answer the Miniforge question with `y` or `n` (Enter means no). The answers are stored in
+`~/.config/chezmoi/chezmoi.toml`, never in this repo; to change them later run `chezmoi init --prompt`
+followed by `chezmoi apply`. Then it:
 
 1. backs up any existing dotfiles to `~/.dotfiles_backup/<time>/`;
 2. installs [pixi](https://pixi.sh) and, through it, all the tools below (prebuilt conda-forge
