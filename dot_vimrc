@@ -1,0 +1,26 @@
+" Minimal ~/.vimrc for when plain vim is all there is (the main editor is Neovim + LazyVim).
+" Managed by chezmoi (github.com/guanxiongsun/my_configs).
+set nocompatible
+syntax on
+filetype plugin indent on
+
+set number
+set mouse=a
+set encoding=utf-8
+set hidden
+set backspace=indent,eol,start
+set expandtab shiftwidth=4 tabstop=4 softtabstop=4
+set autoindent smartindent
+set ignorecase smartcase incsearch hlsearch
+set scrolloff=5
+set wildmenu
+set laststatus=2 ruler showcmd
+set clipboard^=unnamed,unnamedplus
+
+" netrw file browser: tree view, show hidden files
+let g:netrw_liststyle = 3
+let g:netrw_list_hide = ''
+
+let mapleader = " "
+nnoremap <leader>e :Explore<CR>
+nnoremap <silent> <Esc><Esc> :nohlsearch<CR>

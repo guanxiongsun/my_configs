@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Download zsh, tmux and Neovim plugins now, so the first shell / tmux / nvim start is fast.
+# Re-runs when the plugin lists change:
+#   zsh:  {{ include "dot_zsh_plugins.txt" | sha256sum }}
+#   tmux: {{ include "dot_config/tmux/tmux.conf" | sha256sum }}
+#   nvim: {{ include "dot_config/nvim/lua/config/lazy.lua" | sha256sum }}
+set -euo pipefail
+export PATH="$HOME/.local/bin:$HOME/.pixi/bin:$PATH"
+
+if command -v zsh >/dev/null 2>&1; then
+  echo "Installing zsh plugins (antidote)..."
+  zsh -c 'source ~/.local/share/antidote/antidote.zsh && antidote bundle <~/.zsh_plugins.txt >|~/.zsh_plugins.zsh'
+fi
+
+if command -v tmux >/dev/null 2>&1 && [ -x "$HOME/.config/tmux/plugins/tpm/bin/install_plugins" ]; then
+  echo "Installing tmux plugins (tpm)..."
+  "$HOME/.config/tmux/plugins/tpm/bin/install_plugins" >/dev/null
+fi
+
+if command -v nvim >/dev/null 2>&1; then
+  echo "Installing Neovim plugins (LazyVim, may take a minute)..."
+  nvim --headless "+Lazy! sync" +qa >/dev/null 2>&1 || echo "  Lazy sync reported problems; open nvim and run :Lazy to see them"
+fi

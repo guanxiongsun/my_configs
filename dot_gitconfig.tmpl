@@ -1,0 +1,43 @@
+# ~/.gitconfig. Managed by chezmoi (github.com/guanxiongsun/my_configs).
+# Your name/email come from `chezmoi init` prompts (stored on this machine only).
+# Machine-specific settings go in ~/.gitconfig.local, which is included last and wins.
+[user]
+	name = {{ .name }}
+	email = {{ .email }}
+[core]
+	# editor: git uses $EDITOR (nvim when installed, see ~/.zshenv)
+	# delta (pixi) when available, plain less otherwise
+	pager = command -v delta >/dev/null 2>&1 && exec delta || exec less -R
+[interactive]
+	diffFilter = command -v delta >/dev/null 2>&1 && exec delta --color-only || exec cat
+[delta]
+	navigate = true
+	line-numbers = true
+[merge]
+	conflictstyle = zdiff3
+[diff]
+	colorMoved = default
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
+[push]
+	default = simple
+	autoSetupRemote = true
+[fetch]
+	prune = true
+[color]
+	ui = auto
+[alias]
+	st = status -sb
+	co = checkout
+	sw = switch
+	br = branch
+	ci = commit
+	lg = log --graph --oneline --decorate
+	last = log -1 HEAD --stat
+# Clone public repos over HTTPS (no key needed), push over SSH (your per-machine key).
+[url "git@github.com:"]
+	pushInsteadOf = https://github.com/
+[include]
+	path = ~/.gitconfig.local

@@ -1,0 +1,24 @@
+# ~/.zshenv: read by every zsh (interactive or not). Keep it to environment variables.
+# Managed by chezmoi (github.com/guanxiongsun/my_configs).
+
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}"
+export XDG_DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
+
+# pixi's launchers (zsh, tmux, nvim) export their own env as if it were an active conda env.
+# Drop that, so conda/uv/pip don't mistake it for one.
+if [[ "${CONDA_PREFIX:-}" == "$HOME/.pixi/envs/"* ]]; then
+  unset CONDA_PREFIX CONDA_SHLVL
+fi
+
+# Tools installed by pixi (~/.pixi/bin) and personal scripts (~/.local/bin) come first.
+typeset -U path PATH
+path=("$HOME/.local/bin" "$HOME/.pixi/bin" ${path:#$HOME/.pixi/envs/*})
+
+if (( $+commands[nvim] )); then
+  export EDITOR=nvim
+else
+  export EDITOR=vim
+fi
+export VISUAL="$EDITOR"
+export PAGER=less LESS=-R
