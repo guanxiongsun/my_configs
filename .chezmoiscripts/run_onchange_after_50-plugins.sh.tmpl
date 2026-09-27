@@ -21,3 +21,8 @@ if command -v nvim >/dev/null 2>&1; then
   echo "Installing Neovim plugins (LazyVim, may take a minute)..."
   nvim --headless "+Lazy! sync" +qa >/dev/null 2>&1 || echo "  Lazy sync reported problems; open nvim and run :Lazy to see them"
 fi
+
+if ! command -v cc >/dev/null 2>&1 && ! command -v gcc >/dev/null 2>&1; then
+  echo "note: no C compiler found. Neovim's syntax parsers (:TSInstall) need one; without root, uncomment the"
+  echo "      c-compiler block in ~/.pixi/manifests/pixi-global.toml (chezmoi edit) and run: chezmoi apply"
+fi

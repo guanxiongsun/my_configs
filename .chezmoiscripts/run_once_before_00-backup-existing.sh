@@ -2,12 +2,19 @@
 # First run on a machine: keep a copy of any pre-existing dotfiles that chezmoi is about to manage,
 # and move aside the ones that would shadow the new config.
 set -euo pipefail
+umask 077   # backups (they include ~/.ssh/config) stay private on shared servers
 
 # Only ever on the very first apply: chezmoi re-runs run_once_ scripts whenever their content changes,
-# and by then these paths are chezmoi's own files.
-marker="$HOME/.dotfiles_backup/.first-apply-done"
-[ -e "$marker" ] && exit 0
-mkdir -p "$HOME/.dotfiles_backup"
+# and by then these paths are chezmoi's own files. The marker lives outside ~/.dotfiles_backup so that
+# deleting old backups can't trigger a second run (which used to copy our own ~/.ssh/config, with its
+# Include line, into config.local: ssh then failed with "Too many recursive configuration includes").
+marker="$HOME/.local/state/my_configs/first-apply-done"
+legacy_marker="$HOME/.dotfiles_backup/.first-apply-done"
+if [ -e "$marker" ] || [ -e "$legacy_marker" ]; then
+  mkdir -p "$(dirname "$marker")" && touch "$marker"
+  exit 0
+fi
+mkdir -p "$HOME/.dotfiles_backup" "$(dirname "$marker")"
 backup="$HOME/.dotfiles_backup/$(date +%Y%m%d-%H%M%S)"
 
 save() { # save <copy|move> <path>
@@ -31,7 +38,8 @@ save move "$HOME/.config/nvim"
 
 # Keep existing ssh hosts working: they become ~/.ssh/config.local, which the new config includes.
 # (An old ~/.gitconfig is only backed up; copy what you still need into ~/.gitconfig.local.)
-if [ -f "$HOME/.ssh/config" ] && [ ! -e "$HOME/.ssh/config.local" ]; then
+if [ -f "$HOME/.ssh/config" ] && [ ! -e "$HOME/.ssh/config.local" ] \
+  && ! grep -q 'Managed by chezmoi' "$HOME/.ssh/config"; then
   cp -a "$HOME/.ssh/config" "$HOME/.ssh/config.local"
 fi
 

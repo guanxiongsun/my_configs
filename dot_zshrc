@@ -44,6 +44,16 @@ for _conda in "$HOME/miniforge3" "$HOME/miniconda3" "$HOME/anaconda3"; do
 done
 unset _conda
 
+# HPC module systems (Lmod, Environment Modules). pixi's zsh never reads /etc/profile.d, so load the
+# `module` command from the location their bash init exported.
+for _m in "${LMOD_PKG:-}/init/zsh" "${MODULESHOME:-}/init/zsh"; do
+  if [[ -r "$_m" ]] && ! (( $+functions[module] )); then
+    source "$_m"
+    break
+  fi
+done
+unset _m
+
 [[ -r "$XDG_CONFIG_HOME/shell/aliases.sh" ]] && source "$XDG_CONFIG_HOME/shell/aliases.sh"
 
 # --- prompt --------------------------------------------------------------------

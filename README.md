@@ -29,6 +29,9 @@ followed by `chezmoi apply`. Then it:
 
 Log out and back in, or run `exec zsh`, to start using it.
 
+Prerequisites on the machine: `git` (2.19 or newer), `curl` or `wget`, and `tar`. Neovim's syntax
+parsers also need a C compiler (`gcc`); see [Troubleshooting](#troubleshooting) if there is none.
+
 ## What you get
 
 | Area | Tools and config |
@@ -82,7 +85,8 @@ machine, delete just that key at https://github.com/settings/keys.
 - **Login shell:** `chsh` usually isn't allowed on shared servers, so a small block in your bash login
   file (`~/.profile` or `~/.bash_profile`) hands interactive terminal logins over to zsh. `scp`,
   `rsync`, `ssh host cmd` and editors' `bash -lic` stay on bash. To get plain bash once:
-  `ssh -t host NO_ZSH=1 bash -l`. If you can use `chsh`, `chsh -s ~/.pixi/bin/zsh` works too.
+  `ssh -t host NO_ZSH=1 bash -l`. (`chsh` won't accept `~/.pixi/bin/zsh` unless an admin lists it in
+  `/etc/shells`, which is why the hand-off exists.)
 - **Shared (NFS) home directories** across cluster nodes are fine: ssh-agent state is kept per host.
 
 ## Troubleshooting
@@ -94,7 +98,11 @@ machine, delete just that key at https://github.com/settings/keys.
   ```toml
   [mirrors]
   "https://prefix.dev/conda-forge" = ["https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge"]
+  "https://conda.anaconda.org/conda-forge" = ["https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge"]
   ```
+- **Neovim says "No C compiler found" when installing syntax parsers:** the machine has no `gcc`.
+  Without root, uncomment the `c-compiler` block in `~/.pixi/manifests/pixi-global.toml` (use
+  `chezmoi edit`) and run `chezmoi apply`.
 - **Something went wrong midway:** fix it and run `chezmoi apply` again. Every step is safe to repeat.
 - **Old configs:** your previous dotfiles are in `~/.dotfiles_backup/`.
 

@@ -5,8 +5,8 @@ Include ~/.ssh/config.local
 Host github.com
     User git
     UserKnownHostsFile ~/.ssh/known_hosts ~/.ssh/known_hosts.github
-    AddKeysToAgent yes
 
 Host *
+    AddKeysToAgent yes
     ServerAliveInterval 60
     ServerAliveCountMax 3

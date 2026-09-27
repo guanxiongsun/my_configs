@@ -4,6 +4,9 @@
 {{- /* A choice prompt, not promptBool: chezmoi's bool prompt accepts on the first key that parses ("t" = true). */ -}}
 {{- $conda := promptChoiceOnce . "conda" "Install Miniforge (conda) into ~/miniforge3" (list "yes" "no") "no" -}}
 
+# Where the repo lives on this machine (keeps `./install.sh` from a local clone working).
+sourceDir = {{ .chezmoi.sourceDir | quote }}
+
 [data]
     name = {{ $name | quote }}
     email = {{ $email | quote }}
