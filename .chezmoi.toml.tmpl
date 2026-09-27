@@ -1,12 +1,16 @@
 {{- /* Asked once per machine by `chezmoi init`; answers live in ~/.config/chezmoi/chezmoi.toml, never in this repo. */ -}}
 {{- $name := promptStringOnce . "name" "Git user.name" -}}
 {{- $email := promptStringOnce . "email" "Git user.email" -}}
-{{- $miniforge := promptBoolOnce . "miniforge" "Install Miniforge (conda) into ~/miniforge3" false -}}
+{{- /* A choice prompt, not promptBool: chezmoi's bool prompt accepts on the first key that parses ("t" = true). */ -}}
+{{- $conda := promptChoiceOnce . "conda" "Install Miniforge (conda) into ~/miniforge3" (list "yes" "no") "no" -}}
+
+# Where the repo lives on this machine (keeps `./install.sh` from a local clone working).
+sourceDir = {{ .chezmoi.sourceDir | quote }}
 
 [data]
     name = {{ $name | quote }}
     email = {{ $email | quote }}
-    miniforge = {{ $miniforge }}
+    conda = {{ $conda | quote }}
 
 [git]
     autoCommit = false

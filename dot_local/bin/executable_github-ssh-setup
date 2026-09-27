@@ -11,6 +11,7 @@ set -euo pipefail
 export PATH="$HOME/.local/bin:$HOME/.pixi/bin:$PATH"
 
 key="$HOME/.ssh/id_ed25519"
+user="${USER:-$(id -un)}"
 local_config="$HOME/.ssh/config.local"
 title="$(hostname -s 2>/dev/null || hostname) ($(date +%Y-%m-%d))"
 
@@ -51,9 +52,9 @@ if [ ! -f "$key" ]; then
   say "Generating a new SSH key for this machine: ${key/#$HOME/~}"
   if interactive; then
     echo "    (a passphrase is optional; the ssh-agent zsh plugin asks for it once per session)"
-    ssh-keygen -t ed25519 -C "$USER@$title" -f "$key" </dev/tty
+    ssh-keygen -t ed25519 -C "$user@$title" -f "$key" </dev/tty
   else
-    ssh-keygen -q -t ed25519 -C "$USER@$title" -f "$key" -N ""
+    ssh-keygen -q -t ed25519 -C "$user@$title" -f "$key" -N ""
   fi
 fi
 [ -f "$key.pub" ] || ssh-keygen -y -f "$key" >"$key.pub"

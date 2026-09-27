@@ -2,8 +2,8 @@
 # Your name/email come from `chezmoi init` prompts (stored on this machine only).
 # Machine-specific settings go in ~/.gitconfig.local, which is included last and wins.
 [user]
-	name = {{ .name }}
-	email = {{ .email }}
+	name = {{ .name | quote }}
+	email = {{ .email | quote }}
 [core]
 	# editor: git uses $EDITOR (nvim when installed, see ~/.zshenv)
 	# delta (pixi) when available, plain less otherwise
@@ -14,7 +14,7 @@
 	navigate = true
 	line-numbers = true
 [merge]
-	conflictstyle = zdiff3
+	conflictstyle = diff3   # not zdiff3: git < 2.35 (Ubuntu 22.04) aborts on it
 [diff]
 	colorMoved = default
 [init]

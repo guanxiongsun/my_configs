@@ -35,6 +35,12 @@ channels = ["conda-forge"]
 dependencies = { nodejs = "*" }
 exposed = { node = "node", npm = "npm", npx = "npx" }
 
+# Only for machines without gcc: Neovim's syntax parsers need a C compiler (~100 MB download).
+# [envs.c-compiler]
+# channels = ["conda-forge"]
+# dependencies = { c-compiler = "*" }
+# exposed = { cc = "cc", gcc = "gcc" }
+
 # --- modern CLI basics --------------------------------------------------------
 [envs.fzf]
 channels = ["conda-forge"]

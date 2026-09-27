@@ -8,7 +8,7 @@
 # but only needs github.com (handy where get.chezmoi.io is blocked). Extra arguments go to `chezmoi init`,
 # e.g. to skip the questions (keys are the prompt texts):
 #   ./install.sh --promptString "Git user.name=Your Name" --promptString "Git user.email=you@example.com" \
-#     --promptBool "Install Miniforge (conda) into ~/miniforge3=false"
+#     --promptChoice "Install Miniforge (conda) into ~/miniforge3=no"
 set -euo pipefail
 
 repo="${DOTFILES_REPO:-guanxiongsun/my_configs}"

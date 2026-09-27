@@ -16,7 +16,9 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/guanxiongsun/my_configs/
 ```
 
 It asks three things once per machine: your git name, your git email, and whether to install Miniforge.
-The answers are stored in `~/.config/chezmoi/chezmoi.toml`, never in this repo. Then it:
+Answer the Miniforge question with `y` or `n` (Enter means no). The answers are stored in
+`~/.config/chezmoi/chezmoi.toml`, never in this repo; to change them later run `chezmoi init --prompt`
+followed by `chezmoi apply`. Then it:
 
 1. backs up any existing dotfiles to `~/.dotfiles_backup/<time>/`;
 2. installs [pixi](https://pixi.sh) and, through it, all the tools below (prebuilt conda-forge
@@ -27,12 +29,15 @@ The answers are stored in `~/.config/chezmoi/chezmoi.toml`, never in this repo. 
 
 Log out and back in, or run `exec zsh`, to start using it.
 
+Prerequisites on the machine: `git` (2.19 or newer), `curl` or `wget`, and `tar`. Neovim's syntax
+parsers also need a C compiler (`gcc`); see [Troubleshooting](#troubleshooting) if there is none.
+
 ## What you get
 
 | Area | Tools and config |
 |---|---|
 | Shell | zsh + [antidote](https://antidote.sh) plugins (autosuggestions, fast-syntax-highlighting, completions, oh-my-zsh `git`/`extract`/`ssh-agent`), [Starship](https://starship.rs) prompt showing `user@host`, git and conda env. Starts in about 50 ms. |
-| Terminal | tmux (`~/.config/tmux/tmux.conf`): prefix `C-b` or `C-a`, mouse on, splits and new windows keep the current directory, vi copy mode, OSC 52 clipboard, catppuccin theme via tpm |
+| Terminal | tmux (`~/.config/tmux/tmux.conf`): prefix `C-b` or `C-a`, mouse on, splits and new windows keep the current directory, vi copy mode (`v`, `C-v` block, `y`), OSC 52 clipboard, catppuccin theme via tpm. Pop-ups: `prefix g` lazygit, `prefix G` nvitop, `prefix t` scratch shell. Sessions are saved every 15 min and come back after a reboot (tmux-resurrect + continuum; `prefix C-s` / `C-r` to save/restore by hand). |
 | Editor | Neovim + [LazyVim](https://www.lazyvim.org) (`~/.config/nvim`), plus a minimal `~/.vimrc` for plain vim |
 | CLI | fzf (`Ctrl-R` history, `Ctrl-T` files), ripgrep, fd, bat, eza (`ls`/`ll`/`la`/`lt`), zoxide (`z`) |
 | Git | gh, lazygit (`lg`), delta diffs, handy aliases, clone over HTTPS and push over SSH automatically |
@@ -80,17 +85,24 @@ machine, delete just that key at https://github.com/settings/keys.
 - **Login shell:** `chsh` usually isn't allowed on shared servers, so a small block in your bash login
   file (`~/.profile` or `~/.bash_profile`) hands interactive terminal logins over to zsh. `scp`,
   `rsync`, `ssh host cmd` and editors' `bash -lic` stay on bash. To get plain bash once:
-  `ssh -t host NO_ZSH=1 bash -l`. If you can use `chsh`, `chsh -s ~/.pixi/bin/zsh` works too.
+  `ssh -t host NO_ZSH=1 bash -l`. (`chsh` won't accept `~/.pixi/bin/zsh` unless an admin lists it in
+  `/etc/shells`, which is why the hand-off exists.)
 - **Shared (NFS) home directories** across cluster nodes are fine: ssh-agent state is kept per host.
 
 ## Troubleshooting
+
+- **Boxes or `?` in the tmux status bar or Neovim:** install a [Nerd Font](https://www.nerdfonts.com) (for example JetBrainsMono Nerd Font) and select it in the terminal on your laptop.
 
 - **pixi downloads are slow or blocked** (for example from mainland China): point conda-forge at a mirror in
   `~/.pixi/config.toml`:
   ```toml
   [mirrors]
   "https://prefix.dev/conda-forge" = ["https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge"]
+  "https://conda.anaconda.org/conda-forge" = ["https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/conda-forge"]
   ```
+- **Neovim says "No C compiler found" when installing syntax parsers:** the machine has no `gcc`.
+  Without root, uncomment the `c-compiler` block in `~/.pixi/manifests/pixi-global.toml` (use
+  `chezmoi edit`) and run `chezmoi apply`.
 - **Something went wrong midway:** fix it and run `chezmoi apply` again. Every step is safe to repeat.
 - **Old configs:** your previous dotfiles are in `~/.dotfiles_backup/`.
 

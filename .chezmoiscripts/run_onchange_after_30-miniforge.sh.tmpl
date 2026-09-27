@@ -1,4 +1,4 @@
-{{- if .miniforge -}}
+{{- if eq (dig "conda" "no" .) "yes" -}}
 #!/usr/bin/env bash
 # Miniforge (conda + mamba, conda-forge channel) in ~/miniforge3. Chosen at `chezmoi init`.
 # We don't run `conda init`: ~/.zshrc loads conda's shell function itself.
@@ -14,10 +14,12 @@ trap 'rm -rf "$tmpdir"' EXIT
 installer="$tmpdir/Miniforge3.sh"   # the installer insists on a .sh name
 url="https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-$(uname -m).sh"
 echo "Installing Miniforge into ~/miniforge3"
+fail() { echo "Miniforge install failed: $*. Fix it and run: chezmoi apply" >&2; exit 1; }
 if command -v curl >/dev/null 2>&1; then
-  curl -fsSL --retry 3 -o "$installer" "$url"
+  curl -fsSL --retry 3 -o "$installer" "$url" || fail "could not download $url"
 else
-  wget -qO "$installer" "$url"
+  wget -qO "$installer" "$url" || fail "could not download $url"
 fi
-bash "$installer" -b -p "$prefix"
+bash "$installer" -b -p "$prefix" || fail "the installer exited with an error"
+echo "Miniforge installed. In a new shell: conda activate base"
 {{ end -}}

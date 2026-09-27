@@ -3,6 +3,5 @@
 # Re-runs whenever the manifest changes: {{ include "dot_pixi/manifests/pixi-global.toml" | sha256sum }}
 set -euo pipefail
 
-PIXI_HOME="${PIXI_HOME:-$HOME/.pixi}"
 echo "Syncing tools with pixi (first run downloads ~300 MB)..."
-"$PIXI_HOME/bin/pixi" global sync
+"$HOME/.pixi/bin/pixi" global sync
