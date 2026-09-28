@@ -3,6 +3,8 @@
 My dotfiles, managed with [chezmoi](https://www.chezmoi.io). One command sets up a new Linux machine,
 **no sudo needed**: everything installs into `$HOME`. Built for shared/GPU servers.
 
+Want this setup on your own servers? [Fork it](#use-it-for-your-own-servers) and install from your fork.
+
 ## Install
 
 ```sh
@@ -65,6 +67,42 @@ dots                      # cd into the repo (alias for `chezmoi cd`), then comm
 | `~/.gitconfig.local` | per-machine git settings (for example a work email) |
 | `~/.ssh/config.local` | your SSH hosts (keeps private hostnames out of this public repo) |
 
+## Use it for your own servers
+
+You're welcome to use these dotfiles on your own machines ([MIT license](LICENSE)). Install them from a
+fork rather than from this repo: `chezmoi update` pulls from the repo you installed from, so with this
+one you'd get whatever I push next, and your own changes would have nowhere to go.
+
+1. Fork this repo on GitHub. Forks of public repos are public too, so keep private hostnames and anything
+   secret in the `*.local` files listed under [Everyday use](#everyday-use), not in the repo.
+2. Install from your fork, with your GitHub username in place of `YOUR_USERNAME`:
+   ```sh
+   sh -c "$(curl -fsLS get.chezmoi.io/lb)" -- init --apply YOUR_USERNAME/my_configs
+   ```
+   If `get.chezmoi.io` is blocked:
+   ```sh
+   DOTFILES_REPO=YOUR_USERNAME/my_configs bash -c "$(curl -fsSL https://raw.githubusercontent.com/YOUR_USERNAME/my_configs/master/install.sh)"
+   ```
+   So that your fork's own README installs your fork, change `guanxiongsun` to your username in the two
+   commands under [Install](#install) and in the `repo=` line of `install.sh`.
+3. Make it yours with the commands under [Everyday use](#everyday-use), then commit and push to your
+   fork. `chezmoi update` brings the changes to your other machines.
+4. To get later changes from this repo, click **Sync fork** on your fork's GitHub page, then run
+   `chezmoi update`.
+
+Before you run it on a machine you already use, know that it:
+
+- replaces your shell, git, vim/Neovim, tmux and SSH config. The old files are saved to
+  `~/.dotfiles_backup/<time>/` and your SSH hosts keep working from `~/.ssh/config.local`, but settings
+  in an old `~/.gitconfig` don't carry over: copy what you still need into `~/.gitconfig.local`;
+- makes interactive logins start zsh, through a block it adds to your bash login file
+  (see [No sudo? No problem](#no-sudo-no-problem));
+- sends every `git push` to GitHub over SSH, even in repos cloned over HTTPS. If you push with an HTTPS
+  token instead, delete the `[url "git@github.com:"]` block from `dot_gitconfig.tmpl` in your fork;
+- creates `~/.ssh/id_ed25519` if you don't have one and offers to add it to your GitHub account;
+- replaces `~/.pixi/manifests/pixi-global.toml` without backing it up. If you already use `pixi global`,
+  copy that file first: `pixi global sync` then uninstalls every tool that isn't in the new one.
+
 ## GitHub SSH access
 
 Each machine gets **its own key**. No private key is ever stored in this repo, which is public. On first
@@ -122,3 +160,8 @@ dot_gitconfig.tmpl  dot_vimrc  private_dot_ssh/
 dot_local/bin/            github-ssh-setup
 install.sh                bootstrap that needs only github.com
 ```
+
+## License
+
+[MIT](LICENSE). The Neovim config in `dot_config/nvim/` started from the
+[LazyVim starter](https://github.com/LazyVim/starter) (Apache-2.0).
