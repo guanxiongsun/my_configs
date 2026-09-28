@@ -29,7 +29,10 @@ save() { # save <copy|move> <path>
   echo "  backed up ${path/#$HOME/~}"
 }
 
-for f in .zshrc .zshenv .gitconfig .vimrc .ssh/config .config/tmux/tmux.conf .config/starship.toml; do
+# Every config file chezmoi is about to overwrite. The old pixi manifest matters most: `pixi global sync`
+# uninstalls whatever isn't in the new one, and this copy is how to get those tools back.
+for f in .zshrc .zshenv .zsh_plugins.txt .gitconfig .config/git/ignore .vimrc .ssh/config \
+  .config/tmux/tmux.conf .config/starship.toml .config/shell/aliases.sh .pixi/manifests/pixi-global.toml; do
   save copy "$HOME/$f"
 done
 # These would take precedence over / mix with the new config, so move them out of the way.
