@@ -100,8 +100,9 @@ Before you run it on a machine you already use, know that it:
 - sends every `git push` to GitHub over SSH, even in repos cloned over HTTPS. If you push with an HTTPS
   token instead, delete the `[url "git@github.com:"]` block from `dot_gitconfig.tmpl` in your fork;
 - creates `~/.ssh/id_ed25519` if you don't have one and offers to add it to your GitHub account;
-- replaces `~/.pixi/manifests/pixi-global.toml` without backing it up. If you already use `pixi global`,
-  copy that file first: `pixi global sync` then uninstalls every tool that isn't in the new one.
+- replaces `~/.pixi/manifests/pixi-global.toml`, and `pixi global sync` then uninstalls every tool that
+  isn't in the new one. If you already use `pixi global`, add your tools to your fork's
+  `dot_pixi/manifests/pixi-global.toml` before installing, or copy them back from the backup afterwards.
 
 ## GitHub SSH access
 
