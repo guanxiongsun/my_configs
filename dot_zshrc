@@ -8,6 +8,19 @@ SAVEHIST=100000
 setopt extended_history share_history hist_ignore_all_dups hist_ignore_space hist_reduce_blanks
 setopt auto_cd auto_pushd pushd_ignore_dups interactive_comments no_beep
 bindkey -e
+# Up/Down search history for what's typed so far: `ssh` + Up recalls the last `ssh ...` command.
+# Terminals send ^[[A or ^[OA for Up. Keep above the plugins, or recalled lines aren't highlighted.
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey '^[[A' up-line-or-beginning-search '^[OA' up-line-or-beginning-search
+bindkey '^[[B' down-line-or-beginning-search '^[OB' down-line-or-beginning-search
+# Home, End, Delete and Ctrl-Left/Right (word by word); plain zsh leaves them unbound, so they type
+# `~` or `;5D`. Home/End: xterm sends ^[[H ^[OH / ^[[F ^[OF, tmux and screen send ^[[1~ / ^[[4~.
+bindkey '^[[H' beginning-of-line '^[OH' beginning-of-line '^[[1~' beginning-of-line
+bindkey '^[[F' end-of-line '^[OF' end-of-line '^[[4~' end-of-line
+bindkey '^[[3~' delete-char
+bindkey '^[[1;5D' backward-word '^[[1;5C' forward-word
 
 # --- completion paths (before plugins, so ez-compinit picks them up) ----------
 [[ -d "$HOME/.pixi/completions/zsh" ]] && fpath=("$HOME/.pixi/completions/zsh" $fpath)

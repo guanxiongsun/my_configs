@@ -38,7 +38,7 @@ parsers also need a C compiler (`gcc`); see [Troubleshooting](#troubleshooting) 
 
 | Area | Tools and config |
 |---|---|
-| Shell | zsh + [antidote](https://antidote.sh) plugins (autosuggestions, fast-syntax-highlighting, completions, oh-my-zsh `git`/`extract`/`ssh-agent`), [Starship](https://starship.rs) prompt showing `user@host`, git and conda env. Starts in about 50 ms. |
+| Shell | zsh + [antidote](https://antidote.sh) plugins (autosuggestions, fast-syntax-highlighting, completions, oh-my-zsh `git`/`extract`/`ssh-agent`), [Starship](https://starship.rs) prompt showing `user@host`, git and conda env. `Up`/`Down` search history for what you've typed (`ssh` + `Up` recalls your last `ssh ...`). Starts in about 50 ms. |
 | Terminal | tmux (`~/.config/tmux/tmux.conf`): prefix `C-b` or `C-a`, mouse on, splits and new windows keep the current directory, vi copy mode (`v`, `C-v` block, `y`), OSC 52 clipboard, catppuccin theme via tpm. Pop-ups: `prefix g` lazygit, `prefix G` nvitop, `prefix t` scratch shell. Sessions are saved every 15 min and come back after a reboot (tmux-resurrect + continuum; `prefix C-s` / `C-r` to save/restore by hand). |
 | Editor | Neovim + [LazyVim](https://www.lazyvim.org) (`~/.config/nvim`), plus a minimal `~/.vimrc` for plain vim |
 | CLI | fzf (`Ctrl-R` history, `Ctrl-T` files), ripgrep, fd, bat, eza (`ls`/`ll`/`la`/`lt`), zoxide (`z`) |
