@@ -8,6 +8,13 @@ SAVEHIST=100000
 setopt extended_history share_history hist_ignore_all_dups hist_ignore_space hist_reduce_blanks
 setopt auto_cd auto_pushd pushd_ignore_dups interactive_comments no_beep
 bindkey -e
+# Up/Down search history for what's typed so far: `ssh` + Up recalls the last `ssh ...` command.
+# Terminals send ^[[A or ^[OA for Up. Keep above the plugins, or recalled lines aren't highlighted.
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey '^[[A' up-line-or-beginning-search '^[OA' up-line-or-beginning-search
+bindkey '^[[B' down-line-or-beginning-search '^[OB' down-line-or-beginning-search
 
 # --- completion paths (before plugins, so ez-compinit picks them up) ----------
 [[ -d "$HOME/.pixi/completions/zsh" ]] && fpath=("$HOME/.pixi/completions/zsh" $fpath)
